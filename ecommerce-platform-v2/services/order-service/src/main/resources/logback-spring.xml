@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  logback-spring.xml – configures the SLF4J runtime implementation.
+
+  IMPORTANT:
+    Application code uses ONLY the SLF4J API (org.slf4j.Logger / @Slf4j).
+    This file is the ONLY place where logback classes are referenced.
+
+  Profiles:
+    !prod (default / dev): plain coloured console + rolling plain-text file
+    prod:                  rolling JSON file via logstash encoder
+-->
+<configuration>
+
+  <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+  <springProperty scope="context" name="SERVICE_NAME"
+                  source="spring.application.name" defaultValue="ecommerce-service"/>
+
+  <!-- ── Console appender (shared) ──────────────────────────────────────── -->
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %highlight(%-5level) %cyan(%logger{36}) [traceId=%X{traceId:-}] - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- ── Rolling file appender (dev profile: plain text) ────────────────── -->
+  <springProfile name="!prod">
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <file>logs/${SERVICE_NAME}.log</file>
+      <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+        <fileNamePattern>logs/${SERVICE_NAME}.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+        <maxFileSize>500MB</maxFileSize>
+        <maxHistory>7</maxHistory>
+        <totalSizeCap>5GB</totalSizeCap>
+      </rollingPolicy>
+      <encoder>
+        <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} [traceId=%X{traceId:-}] - %msg%n</pattern>
+      </encoder>
+    </appender>
+
+    <root level="INFO">
+      <appender-ref ref="CONSOLE"/>
+      <appender-ref ref="FILE"/>
+    </root>
+  </springProfile>
+
+  <!-- ── Rolling file appender (prod profile: JSON via logstash encoder) ── -->
+  <springProfile name="prod">
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <file>logs/${SERVICE_NAME}.log</file>
+      <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+        <fileNamePattern>logs/${SERVICE_NAME}.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+        <maxFileSize>500MB</maxFileSize>
+        <maxHistory>7</maxHistory>
+        <totalSizeCap>5GB</totalSizeCap>
+      </rollingPolicy>
+      <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+        <customFields>{"service":"${SERVICE_NAME}"}</customFields>
+        <includeMdcKeyName>traceId</includeMdcKeyName>
+        <includeMdcKeyName>spanId</includeMdcKeyName>
+      </encoder>
+    </appender>
+
+    <root level="INFO">
+      <appender-ref ref="CONSOLE"/>
+      <appender-ref ref="FILE"/>
+    </root>
+  </springProfile>
+
+  <!-- ── Logger levels ──────────────────────────────────────────────────── -->
+  <logger name="org.springframework" level="INFO"/>
+  <logger name="org.hibernate"       level="WARN"/>
+  <logger name="org.apache.kafka"    level="WARN"/>
+  <logger name="io.lettuce"          level="WARN"/>
+
+  <springProfile name="!prod">
+    <logger name="com.ecommerce" level="DEBUG"/>
+  </springProfile>
+  <springProfile name="prod">
+    <logger name="com.ecommerce" level="INFO"/>
+  </springProfile>
+
+</configuration>

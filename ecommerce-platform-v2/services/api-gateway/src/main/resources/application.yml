@@ -1,0 +1,73 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: api-gateway
+    group: ecommerce-platform           # Spring Boot 3.5: application group for structured logs
+  data.redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    password: ${REDIS_PASSWORD:}
+  # Spring Boot 3.5: virtual threads for reactive gateway (enable globally)
+  threads:
+    virtual:
+      enabled: true
+  cloud:
+    gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: true
+              lower-case-service-id: true
+          routes:
+            - id: product-service
+              uri: lb://product-service
+              predicates: [Path=/products/**]
+              filters:
+                - name: RateLimiterFilter
+                - name: Retry
+                  args: {retries: 3, statuses: BAD_GATEWAY}
+            - id: order-service
+              uri: lb://order-service
+              predicates: [Path=/orders/**]
+              filters: [RateLimiterFilter]
+            - id: user-service
+              uri: lb://user-service
+              # NOTE: a single Path= predicate accepts multiple comma-separated
+              # patterns. Splitting them in flow-style YAML produced two list
+              # entries, and the second ("/auth/**") failed name=value parsing.
+              predicates:
+                - Path=/users/**,/auth/**
+            - id: url-shortener
+              uri: lb://url-shortener-service
+              predicates:
+                - Path=/urls/**,/s/**
+            - id: search-service
+              uri: lb://search-service
+              predicates: [Path=/search/**]
+            - id: ai-service
+              uri: lb://ai-service
+              predicates: [Path=/ai/**]
+            - id: notification-service
+              uri: lb://notification-service
+              predicates: [Path=/notifications/**]
+            - id: payment-service
+              uri: lb://payment-service
+              predicates: [Path=/payments/**]
+  security:
+    oauth2.resourceserver.jwt:
+      jwk-set-uri: ${KEYCLOAK_URL:http://localhost:8180}/realms/${KEYCLOAK_REALM:ecommerce}/protocol/openid-connect/certs
+resilience4j:
+  circuitbreaker:
+    instances:
+      defaultCircuitBreaker:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+eureka:
+  client.service-url.defaultZone: ${EUREKA_URL:http://localhost:8761}/eureka/
+  instance.prefer-ip-address: true
+management:
+  endpoints.web.exposure.include: health, prometheus, info
+  prometheus.metrics.export.enabled: true

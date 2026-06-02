@@ -1,0 +1,24 @@
+2026-04-29 00:00:19.374 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver [traceId=] - Resolving eureka endpoints via configuration
+2026-04-29 00:05:20.520 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver [traceId=] - Resolving eureka endpoints via configuration
+2026-04-29 00:07:13.835 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool [traceId=] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m56s520ms691µs100ns).
+2026-04-29 00:32:19.758 [DiscoveryClient-HeartbeatExecutor-%d] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - DiscoveryClient_AI-SERVICE/Madumita.mshome.net:ai-service:8087 - Re-registering apps/AI-SERVICE
+2026-04-29 00:32:19.762 [DiscoveryClient-HeartbeatExecutor-%d] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - DiscoveryClient_AI-SERVICE/Madumita.mshome.net:ai-service:8087: registering service...
+2026-04-29 00:32:19.854 [DiscoveryClient-HeartbeatExecutor-%d] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - DiscoveryClient_AI-SERVICE/Madumita.mshome.net:ai-service:8087 - registration status: 204
+2026-04-29 00:32:32.873 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool [traceId=] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=25m19s38ms679µs100ns).
+2026-04-29 00:36:56.520 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver [traceId=] - Resolving eureka endpoints via configuration
+2026-04-29 00:41:56.532 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver [traceId=] - Resolving eureka endpoints via configuration
+2026-04-29 00:46:56.571 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver [traceId=] - Resolving eureka endpoints via configuration
+2026-04-29 00:51:56.585 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver [traceId=] - Resolving eureka endpoints via configuration
+2026-04-29 00:56:56.587 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver [traceId=] - Resolving eureka endpoints via configuration
+2026-04-29 01:00:29.414 [SpringApplicationShutdownHook] INFO  o.s.c.n.e.s.EurekaServiceRegistry [traceId=] - Unregistering application AI-SERVICE with eureka with status DOWN
+2026-04-29 01:00:29.422 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - Saw local status change event StatusChangeEvent [timestamp=1777404629422, current=DOWN, previous=UP]
+2026-04-29 01:00:29.428 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - DiscoveryClient_AI-SERVICE/Madumita.mshome.net:ai-service:8087: registering service...
+2026-04-29 01:00:29.485 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - DiscoveryClient_AI-SERVICE/Madumita.mshome.net:ai-service:8087 - registration status: 204
+2026-04-29 01:00:29.974 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown [traceId=] - Commencing graceful shutdown. Waiting for active requests to complete
+2026-04-29 01:00:30.074 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown [traceId=] - Graceful shutdown complete
+2026-04-29 01:00:30.707 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource [traceId=] - HikariPool-1 - Shutdown initiated...
+2026-04-29 01:00:30.750 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource [traceId=] - HikariPool-1 - Shutdown completed.
+2026-04-29 01:00:30.759 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - Shutting down DiscoveryClient ...
+2026-04-29 01:00:33.771 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - Unregistering ...
+2026-04-29 01:00:33.902 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - DiscoveryClient_AI-SERVICE/Madumita.mshome.net:ai-service:8087 - deregister  status: 200
+2026-04-29 01:00:33.905 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - Completed shut down of DiscoveryClient

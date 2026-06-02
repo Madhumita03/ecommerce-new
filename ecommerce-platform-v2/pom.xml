@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!--
+    ============================================================
+    ROOT POM – ShopEase E-Commerce Platform
+    Spring Boot 3.5.x | Java 21 | Multi-module Maven project
+    ============================================================
+
+    Key Spring Boot 3.5 features used:
+      • @ServletRegistration / @FilterRegistration (new annotations)
+      • Background bean initialisation (bootstrapExecutor)
+      • @ConditionalOnBooleanProperty
+      • Structured logging (spring.application.group)
+      • SSL bundle metrics
+      • WebClient global config properties
+      • Improved Docker Compose / Testcontainers SSL support
+      • JUnit Jupiter 5.12, Mockito 5.17 (auto-upgraded via BOM)
+
+    Logging:
+      SLF4J API is the ONLY logging facade used in application code.
+      Logback-classic is the SLF4J implementation chosen at runtime
+      (spring-boot-starter pulls it automatically) – developers never
+      import logback classes directly; all log statements use
+      org.slf4j.Logger / LoggerFactory or Lombok @Slf4j.
+  -->
+
+  <groupId>com.ecommerce</groupId>
+  <artifactId>ecommerce-platform</artifactId>
+  <version>2.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>ShopEase E-Commerce Platform</name>
+  <description>Production-grade e-commerce – Spring Boot 3.5, SLF4J, JUnit 5, Mockito 5</description>
+
+  <modules>
+    <module>services/api-gateway</module>
+    <module>services/product-service</module>
+    <module>services/order-service</module>
+    <module>services/user-service</module>
+    <module>services/notification-service</module>
+    <module>services/url-shortener-service</module>
+    <module>services/search-service</module>
+    <module>services/ai-service</module>
+    <module>services/payment-service</module>
+    <module>services/crawler-service</module>
+  </modules>
+
+  <!-- ── Spring Boot parent (provides dependency + plugin management) ── -->
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.5.4</version>
+    <relativePath/>
+  </parent>
+
+  <properties>
+    <java.version>21</java.version>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <!-- Spring ecosystem -->
+    <!-- Spring Cloud 2025.0.x is the release train compatible with Spring Boot 3.5.x -->
+    <spring-cloud.version>2025.0.0</spring-cloud.version>
+    <spring-ai.version>1.0.0</spring-ai.version>
+
+    <!-- Third-party (spring-boot-parent manages most; override only where needed) -->
+    <bucket4j.version>8.14.0</bucket4j.version>
+    <shardingsphere.version>5.5.1</shardingsphere.version>
+    <jsoup.version>1.18.3</jsoup.version>
+    <springdoc.version>2.8.8</springdoc.version>
+    <mapstruct.version>1.6.3</mapstruct.version>
+    <logstash-logback.version>8.1</logstash-logback.version>
+
+    <!--
+      Override Spring Boot 3.5's bundled Flyway (11.7.x) with 11.10.0,
+      which supports PostgreSQL 17.x patch releases (17.9 in our compose stack).
+      Spring Boot's BOM applies this property to flyway-core,
+      flyway-database-postgresql and any other flyway-* artifacts.
+    -->
+    <flyway.version>11.10.0</flyway.version>
+
+    <!--
+      JUnit 5 and Mockito versions are managed by spring-boot-parent 3.5
+      (JUnit Jupiter 5.12, Mockito 5.17) – listed here for documentation only.
+    -->
+    <junit-jupiter.version>5.12.2</junit-jupiter.version>
+    <mockito.version>5.17.0</mockito.version>
+  </properties>
+
+  <!-- ── Dependency Management (BOM imports) ── -->
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>${spring-cloud.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.ai</groupId>
+        <artifactId>spring-ai-bom</artifactId>
+        <version>${spring-ai.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.bucket4j</groupId>
+        <artifactId>bucket4j_jdk17-core</artifactId>
+        <version>${bucket4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.bucket4j</groupId>
+        <artifactId>bucket4j_jdk17-lettuce</artifactId>
+        <version>${bucket4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jsoup</groupId>
+        <artifactId>jsoup</artifactId>
+        <version>${jsoup.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        <version>${springdoc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mapstruct</groupId>
+        <artifactId>mapstruct</artifactId>
+        <version>${mapstruct.version}</version>
+      </dependency>
+      <!--
+        logstash-logback-encoder: only used in logback-spring.xml (infrastructure config).
+        Application code must NOT import any logstash/logback classes.
+        All application logging must go through SLF4J API only.
+      -->
+      <dependency>
+        <groupId>net.logstash.logback</groupId>
+        <artifactId>logstash-logback-encoder</artifactId>
+        <version>${logstash-logback.version}</version>
+        <scope>runtime</scope>
+      </dependency>
+
+      <!-- WebFlux -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-webflux</artifactId>
+      </dependency>
+
+      <!-- OpenAPI -->
+      <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+        <version>2.5.0</version>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
+  <!-- ── Common dependencies inherited by every module ── -->
+  <dependencies>
+    <!-- Lombok – compile-time code generation (incl. @Slf4j) -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+    <!--
+      SLF4J API – the ONLY logging API used in application code.
+      The runtime implementation (logback-classic) is pulled transitively
+      by spring-boot-starter; we never reference logback directly.
+    -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <!-- version managed by spring-boot-parent -->
+    </dependency>
+
+    <!-- Bean validation -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+
+    <!--
+      Spring Cloud Netflix Eureka client – every service registers itself
+      with the discovery server and uses @EnableDiscoveryClient.
+      This brings in spring-cloud-commons (package
+      org.springframework.cloud.client.discovery).
+    -->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+    </dependency>
+
+    <!-- ── Test scope ── -->
+    <!-- JUnit 5 (Jupiter) – managed by spring-boot-parent 3.5 → 5.12 -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+      <!--
+        spring-boot-starter-test already bundles:
+          junit-jupiter, mockito-core, mockito-junit-jupiter,
+          assertj-core, spring-test, hamcrest, json-path
+        No need to declare them separately.
+      -->
+    </dependency>
+
+    <!-- Logstash encoder on the test classpath for integration tests -->
+    <dependency>
+      <groupId>net.logstash.logback</groupId>
+      <artifactId>logstash-logback-encoder</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+  </dependencies>
+
+  <!-- ── Build plugins ── -->
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>${java.version}</source>
+            <target>${java.version}</target>
+            <compilerArgs>
+              <arg>--enable-preview</arg>
+            </compilerArgs>
+            <annotationProcessorPaths>
+              <!-- MapStruct annotation processor -->
+              <path>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>${mapstruct.version}</version>
+              </path>
+              <!-- Lombok annotation processor (must be before mapstruct) -->
+              <path>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+              </path>
+              <path>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok-mapstruct-binding</artifactId>
+                <version>0.2.0</version>
+              </path>
+            </annotationProcessorPaths>
+          </configuration>
+        </plugin>
+
+        <!-- Surefire – run JUnit 5 tests -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <configuration>
+            <argLine>--enable-preview</argLine>
+            <!-- JUnit 5 platform launcher -->
+            <includes>
+              <include>**/*Test.java</include>
+              <include>**/*Tests.java</include>
+              <include>**/*Spec.java</include>
+            </includes>
+          </configuration>
+        </plugin>
+
+        <!-- JaCoCo – code coverage -->
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.8.12</version>
+          <executions>
+            <execution>
+              <goals><goal>prepare-agent</goal></goals>
+            </execution>
+            <execution>
+              <id>report</id>
+              <phase>verify</phase>
+              <goals><goal>report</goal></goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <repositories>
+    <repository>
+      <id>spring-milestones</id>
+      <name>Spring Milestones</name>
+      <url>https://repo.spring.io/milestone</url>
+    </repository>
+  </repositories>
+</project>

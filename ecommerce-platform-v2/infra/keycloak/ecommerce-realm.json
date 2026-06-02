@@ -1,0 +1,60 @@
+{
+  "realm": "ecommerce",
+  "enabled": true,
+  "accessTokenLifespan": 900,
+  "verifyEmail": false,
+  "registrationAllowed": false,
+  "resetPasswordAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "rememberMe": false,
+  "roles": {
+    "realm": [
+      {"name":"USER"},
+      {"name":"ADMIN"},
+      {"name":"INVENTORY"},
+      {"name":"VENDOR"}
+    ]
+  },
+  "clients": [
+    {"clientId":"ecommerce-backend","publicClient":false,"serviceAccountsEnabled":true,
+     "directAccessGrantsEnabled":true,"secret":"ecommerce-backend-secret"},
+    {"clientId":"swagger-ui","publicClient":true,"standardFlowEnabled":true,
+     "redirectUris":["http://localhost:*/*"],"webOrigins":["*"]}
+  ],
+  "users": [
+    {
+      "username":"admin",
+      "email":"admin@shopease.com",
+      "firstName":"Admin",
+      "lastName":"User",
+      "enabled":true,
+      "emailVerified":true,
+      "requiredActions":[],
+      "credentials":[{"type":"password","value":"admin123","temporary":false}],
+      "realmRoles":["ADMIN","USER"]
+    },
+    {
+      "username":"testuser",
+      "email":"user@shopease.com",
+      "firstName":"Test",
+      "lastName":"User",
+      "enabled":true,
+      "emailVerified":true,
+      "requiredActions":[],
+      "credentials":[{"type":"password","value":"user123","temporary":false}],
+      "realmRoles":["USER"]
+    },
+    {
+      "username":"customer",
+      "email":"customer@shopease.com",
+      "firstName":"Customer",
+      "lastName":"User",
+      "enabled":true,
+      "emailVerified":true,
+      "requiredActions":[],
+      "credentials":[{"type":"password","value":"customer123","temporary":false}],
+      "realmRoles":["USER"]
+    }
+  ]
+}

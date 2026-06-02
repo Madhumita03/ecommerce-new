@@ -1,0 +1,34 @@
+server:
+  port: 8088
+spring:
+  application:
+    name: notification-service
+    group: ecommerce-platform
+  threads.virtual.enabled: true
+  mail:
+    host: ${SMTP_HOST:smtp.sendgrid.net}
+    port: 587
+    username: apikey
+    password: ${SENDGRID_API_KEY:your-key}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+  kafka:
+    bootstrap-servers: ${KAFKA_BROKERS:localhost:9092}
+    consumer:
+      group-id: notification-service
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+eureka:
+  client.service-url.defaultZone: ${EUREKA_URL:http://localhost:8761}/eureka/
+management:
+  endpoints.web.exposure.include: health, prometheus, info
+  endpoint.health:
+    show-details: always              # show which sub-indicator is DOWN
+    show-components: always
+  health:
+    # Mail health indicator tries to authenticate against SendGrid on every probe.
+    # Without a real SENDGRID_API_KEY this fails and turns /actuator/health DOWN.
+    # Email sending still works at runtime when the key is set.
+    mail.enabled: false

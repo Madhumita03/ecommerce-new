@@ -1,0 +1,33 @@
+2026-04-29 00:00:18.130 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver [traceId=] - Resolving eureka endpoints via configuration
+2026-04-29 00:01:16.575 [reactor-http-nio-7] INFO  c.e.gateway.filter.LoggingFilter [traceId=] - method=GET path=/products/ status=500 latencyMs=1804 traceId=f96182fe-a37a-4b45-86b5-4ef8b1ac442f
+2026-04-29 00:05:18.295 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver [traceId=] - Resolving eureka endpoints via configuration
+2026-04-29 00:32:26.603 [DiscoveryClient-HeartbeatExecutor-%d] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - DiscoveryClient_API-GATEWAY/Madumita.mshome.net:api-gateway:8080 - Re-registering apps/API-GATEWAY
+2026-04-29 00:32:26.605 [DiscoveryClient-HeartbeatExecutor-%d] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - DiscoveryClient_API-GATEWAY/Madumita.mshome.net:api-gateway:8080: registering service...
+2026-04-29 00:32:26.712 [DiscoveryClient-HeartbeatExecutor-%d] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - DiscoveryClient_API-GATEWAY/Madumita.mshome.net:api-gateway:8080 - registration status: 204
+2026-04-29 00:36:54.309 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver [traceId=] - Resolving eureka endpoints via configuration
+2026-04-29 00:40:35.008 [reactor-http-nio-9] INFO  c.e.gateway.filter.LoggingFilter [traceId=] - method=GET path=/products/ status=500 latencyMs=503 traceId=5f2d5dec-6ce6-4a4f-a108-f3a6281cd28a
+2026-04-29 00:41:54.315 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver [traceId=] - Resolving eureka endpoints via configuration
+2026-04-29 00:46:54.319 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver [traceId=] - Resolving eureka endpoints via configuration
+2026-04-29 00:51:54.331 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver [traceId=] - Resolving eureka endpoints via configuration
+2026-04-29 00:53:11.322 [reactor-http-nio-11] INFO  c.e.gateway.filter.LoggingFilter [traceId=] - method=POST path=/products status=201 latencyMs=5333 traceId=3a340448-85ca-4c28-9b7f-e858b352f8f6
+2026-04-29 00:53:26.305 [reactor-http-nio-11] INFO  c.e.gateway.filter.LoggingFilter [traceId=] - method=GET path=/products/45661b78-3df9-47de-ab01-124a9c6d5854 status=200 latencyMs=42 traceId=dae66750-e2ce-47af-9b7d-19251f937db6
+2026-04-29 00:53:49.996 [reactor-http-nio-11] INFO  c.e.gateway.filter.LoggingFilter [traceId=] - method=GET path=/products/search status=200 latencyMs=106 traceId=6ca5c21a-fc79-444f-8159-e1585038847a
+2026-04-29 00:54:08.554 [reactor-http-nio-11] INFO  c.e.gateway.filter.LoggingFilter [traceId=] - method=GET path=/products status=200 latencyMs=90 traceId=adff0a90-87ca-4753-9278-1c136346d8b1
+2026-04-29 00:55:59.230 [reactor-http-nio-13] INFO  c.e.gateway.filter.LoggingFilter [traceId=] - method=PUT path=/products/45661b78-3df9-47de-ab01-124a9c6d5854 status=200 latencyMs=214 traceId=78b92288-5573-4ee9-8665-bd294d64a3f4
+2026-04-29 00:56:15.045 [reactor-http-nio-13] INFO  c.e.gateway.filter.LoggingFilter [traceId=] - method=PATCH path=/products/45661b78-3df9-47de-ab01-124a9c6d5854/stock status=200 latencyMs=197 traceId=9362431e-c49e-4ff5-b19f-67cf8725d3d9
+2026-04-29 00:56:54.345 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver [traceId=] - Resolving eureka endpoints via configuration
+2026-04-29 00:58:52.564 [reactor-http-nio-15] INFO  c.e.gateway.filter.LoggingFilter [traceId=] - method=POST path=/products status=500 latencyMs=87 traceId=9b8dcf41-f598-47d0-95d0-a68111f9d48a
+2026-04-29 00:59:06.357 [reactor-http-nio-15] INFO  c.e.gateway.filter.LoggingFilter [traceId=] - method=GET path=/products/search status=200 latencyMs=48 traceId=bbb742ed-4991-44f7-affc-857c781ddee7
+2026-04-29 00:59:17.434 [reactor-http-nio-15] INFO  c.e.gateway.filter.LoggingFilter [traceId=] - method=GET path=/products/45661b78-3df9-47de-ab01-124a9c6d5854 status=200 latencyMs=57 traceId=c80f2b2d-3e5b-4181-9b44-ca66c8a58f6f
+2026-04-29 00:59:29.077 [reactor-http-nio-15] INFO  c.e.gateway.filter.LoggingFilter [traceId=] - method=GET path=/products status=200 latencyMs=64 traceId=ebe10b63-615b-475a-bf5b-1e588c8a35ae
+2026-04-29 01:00:02.382 [reactor-http-nio-15] INFO  c.e.gateway.filter.LoggingFilter [traceId=] - method=DELETE path=/products/45661b78-3df9-47de-ab01-124a9c6d5854 status=204 latencyMs=605 traceId=49c5d000-0929-4161-86fe-10da13e8dcb8
+2026-04-29 01:00:28.742 [SpringApplicationShutdownHook] INFO  o.s.c.n.e.s.EurekaServiceRegistry [traceId=] - Unregistering application API-GATEWAY with eureka with status DOWN
+2026-04-29 01:00:28.743 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - Saw local status change event StatusChangeEvent [timestamp=1777404628743, current=DOWN, previous=UP]
+2026-04-29 01:00:28.744 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - DiscoveryClient_API-GATEWAY/Madumita.mshome.net:api-gateway:8080: registering service...
+2026-04-29 01:00:28.755 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.netty.GracefulShutdown [traceId=] - Commencing graceful shutdown. Waiting for active requests to complete
+2026-04-29 01:00:28.763 [netty-shutdown] INFO  o.s.b.w.e.netty.GracefulShutdown [traceId=] - Graceful shutdown complete
+2026-04-29 01:00:28.788 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - DiscoveryClient_API-GATEWAY/Madumita.mshome.net:api-gateway:8080 - registration status: 204
+2026-04-29 01:00:30.898 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - Shutting down DiscoveryClient ...
+2026-04-29 01:00:33.910 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - Unregistering ...
+2026-04-29 01:00:33.928 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - DiscoveryClient_API-GATEWAY/Madumita.mshome.net:api-gateway:8080 - deregister  status: 200
+2026-04-29 01:00:33.929 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - Completed shut down of DiscoveryClient

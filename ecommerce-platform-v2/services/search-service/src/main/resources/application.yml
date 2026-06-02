@@ -1,0 +1,23 @@
+server:
+  port: 8086
+spring:
+  application:
+    name: search-service
+    group: ecommerce-platform
+  threads.virtual.enabled: true
+  elasticsearch:
+    uris: ${ELASTICSEARCH_URI:http://localhost:9200}
+  data.redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+  kafka:
+    bootstrap-servers: ${KAFKA_BROKERS:localhost:9092}
+    consumer:
+      group-id: search-service-indexer
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+eureka:
+  client.service-url.defaultZone: ${EUREKA_URL:http://localhost:8761}/eureka/
+management:
+  endpoints.web.exposure.include: health, prometheus

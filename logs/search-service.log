@@ -1,0 +1,17 @@
+2026-04-29 00:02:15.901 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver [traceId=] - Resolving eureka endpoints via configuration
+2026-04-29 00:33:52.449 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver [traceId=] - Resolving eureka endpoints via configuration
+2026-04-29 00:38:52.465 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver [traceId=] - Resolving eureka endpoints via configuration
+2026-04-29 00:43:52.473 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver [traceId=] - Resolving eureka endpoints via configuration
+2026-04-29 00:48:52.489 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver [traceId=] - Resolving eureka endpoints via configuration
+2026-04-29 00:53:52.503 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver [traceId=] - Resolving eureka endpoints via configuration
+2026-04-29 00:58:52.516 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver [traceId=] - Resolving eureka endpoints via configuration
+2026-04-29 01:00:29.194 [SpringApplicationShutdownHook] INFO  o.s.c.n.e.s.EurekaServiceRegistry [traceId=] - Unregistering application SEARCH-SERVICE with eureka with status DOWN
+2026-04-29 01:00:29.198 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - Saw local status change event StatusChangeEvent [timestamp=1777404629198, current=DOWN, previous=UP]
+2026-04-29 01:00:29.203 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - DiscoveryClient_SEARCH-SERVICE/Madumita.mshome.net:search-service:8086: registering service...
+2026-04-29 01:00:29.263 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - DiscoveryClient_SEARCH-SERVICE/Madumita.mshome.net:search-service:8086 - registration status: 204
+2026-04-29 01:00:29.796 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown [traceId=] - Commencing graceful shutdown. Waiting for active requests to complete
+2026-04-29 01:00:29.899 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown [traceId=] - Graceful shutdown complete
+2026-04-29 01:00:30.481 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - Shutting down DiscoveryClient ...
+2026-04-29 01:00:33.489 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - Unregistering ...
+2026-04-29 01:00:33.590 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - DiscoveryClient_SEARCH-SERVICE/Madumita.mshome.net:search-service:8086 - deregister  status: 200
+2026-04-29 01:00:33.592 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient [traceId=] - Completed shut down of DiscoveryClient
