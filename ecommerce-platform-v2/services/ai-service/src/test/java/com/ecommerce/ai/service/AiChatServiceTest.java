@@ -13,6 +13,7 @@ import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.model.Generation;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -44,12 +45,12 @@ class AiChatServiceTest {
 
     @BeforeEach
     void setUp() {
-        given(redis.opsForValue()).willReturn(valueOps);
-        given(valueOps.get(startsWith("chat:history:"))).willReturn(null); // empty history
-        given(vectorStore.similaritySearch(any())).willReturn(List.of()); // no RAG docs
-        given(chatModel.call(any(Prompt.class))).willReturn(chatResponse);
-        given(chatResponse.getResult()).willReturn(generation);
-        given(generation.getOutput()).willReturn(new AssistantMessage("Mock AI response"));
+        lenient().when(redis.opsForValue()).thenReturn(valueOps);
+        lenient().when(valueOps.get(startsWith("chat:history:"))).thenReturn(null);
+        lenient().when(vectorStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of());
+        lenient().when(chatModel.call(any(Prompt.class))).thenReturn(chatResponse);
+        lenient().when(chatResponse.getResult()).thenReturn(generation);
+        lenient().when(generation.getOutput()).thenReturn(new AssistantMessage("Mock AI response"));
     }
 
     @Nested
@@ -83,9 +84,9 @@ class AiChatServiceTest {
 
         @ParameterizedTest(name = "raw={0} → sentiment={1}")
         @CsvSource({
-            "sentiment:POSITIVE,confidence:0.9,summary:Great,       POSITIVE, 0.9",
-            "sentiment:NEGATIVE,confidence:0.8,summary:Bad,         NEGATIVE, 0.8",
-            "sentiment:NEUTRAL, confidence:0.5,summary:Average,     NEUTRAL,  0.5"
+            "'sentiment:POSITIVE,confidence:0.9,summary:Great', POSITIVE, 0.9",
+            "'sentiment:NEGATIVE,confidence:0.8,summary:Bad', NEGATIVE, 0.8",
+            "'sentiment:NEUTRAL,confidence:0.5,summary:Average', NEUTRAL, 0.5"
         })
         @DisplayName("parses JSON sentiment response correctly")
         void shouldParseSentiment(String raw, String expectedSentiment, double expectedConf) {

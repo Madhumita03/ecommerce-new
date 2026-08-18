@@ -133,6 +133,7 @@ public class ProductService implements ProductReadService, ProductWriteService {
     private void publishEvent(ProductEvent.EventType type, Product product) {
         var event = ProductEvent.builder()
             .eventType(type).productId(product.getId())
+            .productName(product.getName())
             .sku(product.getSku()).categoryId(product.getCategoryId())
             .build();
         kafkaTemplate.send("product-events", product.getCategoryId().toString(), event);

@@ -1,0 +1,8 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body style="font-family:Arial,sans-serif;color:#1f2937">
+  <h1 style="color:#dc2626">Your order was cancelled</h1>
+  <p>Order: <strong th:text="${orderId}">order-id</strong></p>
+  <p>Reason: <span th:text="${reason}">Payment could not be completed.</span></p>
+</body>
+</html>

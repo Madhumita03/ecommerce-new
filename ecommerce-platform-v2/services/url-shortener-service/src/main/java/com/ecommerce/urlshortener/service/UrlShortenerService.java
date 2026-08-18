@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class UrlShortenerService {
 
     static final String BASE62 =
-        "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private static final String   REDIS_PREFIX = "url:";
     private static final Duration CACHE_TTL    = Duration.ofHours(24);
 

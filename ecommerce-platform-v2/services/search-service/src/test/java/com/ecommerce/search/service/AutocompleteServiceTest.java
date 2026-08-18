@@ -35,7 +35,7 @@ class AutocompleteServiceTest {
 
     @InjectMocks private AutocompleteService autocompleteService;
 
-    @BeforeEach void setUp() { given(redis.opsForZSet()).willReturn(zSet); }
+    @BeforeEach void setUp() { lenient().when(redis.opsForZSet()).thenReturn(zSet); }
 
     @Nested @DisplayName("suggest()")
     class SuggestTests {

@@ -20,7 +20,8 @@
     {"clientId":"ecommerce-backend","publicClient":false,"serviceAccountsEnabled":true,
      "directAccessGrantsEnabled":true,"secret":"ecommerce-backend-secret"},
     {"clientId":"swagger-ui","publicClient":true,"standardFlowEnabled":true,
-     "redirectUris":["http://localhost:*/*"],"webOrigins":["*"]}
+     "redirectUris":["http://localhost:3000/*","http://localhost:3001/*"],
+     "webOrigins":["http://localhost:3000","http://localhost:3001"]}
   ],
   "users": [
     {

@@ -27,10 +27,11 @@ public class RedisConfig {
 
     @Bean
     public RedisClient redisClient() {
-        RedisURI uri = RedisURI.builder()
-            .withHost(host).withPort(port)
-            .withAuthentication("default", password.toCharArray())
-            .build();
+        RedisURI.Builder builder = RedisURI.builder().withHost(host).withPort(port);
+        if (password != null && !password.isBlank()) {
+            builder.withAuthentication("default", password.toCharArray());
+        }
+        RedisURI uri = builder.build();
         return RedisClient.create(uri);
     }
 

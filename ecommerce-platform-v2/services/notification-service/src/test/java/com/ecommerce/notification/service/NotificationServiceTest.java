@@ -36,9 +36,9 @@ class NotificationServiceTest {
 
     @BeforeEach
     void setUp() {
-        given(mailSender.createMimeMessage()).willReturn(mimeMessage);
-        given(templateEngine.process(anyString(), any(IContext.class)))
-            .willReturn("<html>Order confirmed</html>");
+        lenient().when(mailSender.createMimeMessage()).thenReturn(mimeMessage);
+        lenient().when(templateEngine.process(anyString(), any(IContext.class)))
+            .thenReturn("<html>Order confirmed</html>");
     }
 
     @Nested

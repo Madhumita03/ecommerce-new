@@ -35,10 +35,16 @@ public class CacheConfig {
             Caffeine.newBuilder().maximumSize(200)
                 .expireAfterWrite(Duration.ofMinutes(30)).recordStats().build());
     }
+    @Bean CaffeineCache productListCaffeineCache() {
+        return new CaffeineCache("product-list",
+            Caffeine.newBuilder().maximumSize(500)
+                .expireAfterWrite(Duration.ofMinutes(10)).recordStats().build());
+    }
     @Bean SimpleCacheManager caffeineCacheManager(CaffeineCache productCaffeineCache,
-                                                   CaffeineCache categoryCaffeineCache) {
+                                                   CaffeineCache categoryCaffeineCache,
+                                                   CaffeineCache productListCaffeineCache) {
         var mgr = new SimpleCacheManager();
-        mgr.setCaches(List.of(productCaffeineCache, categoryCaffeineCache));
+        mgr.setCaches(List.of(productCaffeineCache, categoryCaffeineCache, productListCaffeineCache));
         return mgr;
     }
     @Bean RedisCacheManager redisCacheManager(RedisConnectionFactory cf) {

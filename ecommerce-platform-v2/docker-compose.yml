@@ -157,7 +157,7 @@ services:
     image: nginx:1.27-alpine
     ports: ["80:80"]
     volumes: [./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro]
-    depends_on: [api-gateway]
+    depends_on: [api-gateway, notification-service]
     networks: [backend]
 
   # ── Eureka ────────────────────────────────────────────────────────────────
@@ -195,7 +195,7 @@ services:
 
   # ── Microservices ─────────────────────────────────────────────────────────
   api-gateway:
-    build: { context: ./services/api-gateway, dockerfile: ../../Dockerfile }
+    build: { context: ., dockerfile: Dockerfile, args: { MODULE: api-gateway } }
     environment:
       SPRING_PROFILES_ACTIVE: prod
       REDIS_HOST: redis
@@ -206,10 +206,10 @@ services:
     ports: ["8080:8080"]
     depends_on: { redis: { condition: service_healthy } }
     networks: [backend]
-    deploy: { replicas: 2, resources: { limits: { memory: 512m } } }
+    mem_limit: 512m
 
   product-service:
-    build: { context: ./services/product-service, dockerfile: ../../Dockerfile }
+    build: { context: ., dockerfile: Dockerfile, args: { MODULE: product-service } }
     environment:
       SPRING_PROFILES_ACTIVE: prod
       DB_PRIMARY0_HOST: postgres-primary0
@@ -229,7 +229,7 @@ services:
     networks: [backend]
 
   order-service:
-    build: { context: ./services/order-service, dockerfile: ../../Dockerfile }
+    build: { context: ., dockerfile: Dockerfile, args: { MODULE: order-service } }
     environment:
       SPRING_PROFILES_ACTIVE: prod
       DB_HOST: postgres-orders
@@ -239,13 +239,15 @@ services:
       KAFKA_BROKERS: kafka:9092
       KEYCLOAK_URL: http://keycloak:8080
       EUREKA_URL: http://eureka:8761
+      SERVICES_PRODUCT_URL: http://product-service:8081
     depends_on:
       postgres-orders: { condition: service_healthy }
       kafka: { condition: service_healthy }
+      product-service: { condition: service_started }
     networks: [backend]
 
   user-service:
-    build: { context: ./services/user-service, dockerfile: ../../Dockerfile }
+    build: { context: ., dockerfile: Dockerfile, args: { MODULE: user-service } }
     environment:
       SPRING_PROFILES_ACTIVE: prod
       DB_HOST: postgres-orders
@@ -258,7 +260,7 @@ services:
     networks: [backend]
 
   notification-service:
-    build: { context: ./services/notification-service, dockerfile: ../../Dockerfile }
+    build: { context: ., dockerfile: Dockerfile, args: { MODULE: notification-service } }
     environment:
       SPRING_PROFILES_ACTIVE: prod
       KAFKA_BROKERS: kafka:9092
@@ -269,7 +271,7 @@ services:
     networks: [backend]
 
   url-shortener-service:
-    build: { context: ./services/url-shortener-service, dockerfile: ../../Dockerfile }
+    build: { context: ., dockerfile: Dockerfile, args: { MODULE: url-shortener-service } }
     environment:
       SPRING_PROFILES_ACTIVE: prod
       DB_HOST: postgres-orders
@@ -284,7 +286,7 @@ services:
     networks: [backend]
 
   search-service:
-    build: { context: ./services/search-service, dockerfile: ../../Dockerfile }
+    build: { context: ., dockerfile: Dockerfile, args: { MODULE: search-service } }
     environment:
       SPRING_PROFILES_ACTIVE: prod
       ELASTICSEARCH_URI: http://elasticsearch:9200
@@ -297,7 +299,7 @@ services:
     networks: [backend]
 
   ai-service:
-    build: { context: ./services/ai-service, dockerfile: ../../Dockerfile }
+    build: { context: ., dockerfile: Dockerfile, args: { MODULE: ai-service } }
     environment:
       SPRING_PROFILES_ACTIVE: prod
       OPENAI_API_KEY: ${OPENAI_API_KEY}
@@ -312,7 +314,7 @@ services:
     networks: [backend]
 
   payment-service:
-    build: { context: ./services/payment-service, dockerfile: ../../Dockerfile }
+    build: { context: ., dockerfile: Dockerfile, args: { MODULE: payment-service } }
     environment:
       SPRING_PROFILES_ACTIVE: prod
       DB_HOST: postgres-orders
@@ -329,7 +331,7 @@ services:
     networks: [backend]
 
   crawler-service:
-    build: { context: ./services/crawler-service, dockerfile: ../../Dockerfile }
+    build: { context: ., dockerfile: Dockerfile, args: { MODULE: crawler-service } }
     environment:
       SPRING_PROFILES_ACTIVE: prod
       KAFKA_BROKERS: kafka:9092

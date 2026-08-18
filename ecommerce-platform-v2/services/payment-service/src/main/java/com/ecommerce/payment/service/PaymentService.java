@@ -11,6 +11,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -34,6 +36,7 @@ public class PaymentService {
             UUID orderId     = UUID.fromString(node.get("orderId").asText());
             UUID userId      = UUID.fromString(node.get("userId").asText());
             BigDecimal amount = new BigDecimal(node.get("amount").asText());
+            String userEmail = node.path("userEmail").asText("noemail@example.com");
 
             // Idempotency guard – skip duplicate Kafka deliveries
             if (paymentRepository.existsBySagaId(sagaId)) {
@@ -50,8 +53,17 @@ public class PaymentService {
                 .transactionId(result.transactionId())
                 .failureReason(result.failureReason()).build());
 
-            String resultPayload = "{\"sagaId\":\"%s\",\"success\":%b,\"transactionId\":\"%s\"}"
-                .formatted(sagaId, result.success(), result.transactionId());
+            Map<String, Object> resultEvent = new LinkedHashMap<>();
+            resultEvent.put("eventType", "PAYMENT_RESULT");
+            resultEvent.put("sagaId", sagaId);
+            resultEvent.put("orderId", orderId);
+            resultEvent.put("userId", userId);
+            resultEvent.put("userEmail", userEmail);
+            resultEvent.put("amount", amount);
+            resultEvent.put("success", result.success());
+            resultEvent.put("transactionId", result.transactionId());
+            resultEvent.put("failureReason", result.failureReason());
+            String resultPayload = objectMapper.writeValueAsString(resultEvent);
             kafkaTemplate.send("payment-result-events", sagaId.toString(), resultPayload);
             log.info("Payment result published sagaId={} success={}", sagaId, result.success());
 

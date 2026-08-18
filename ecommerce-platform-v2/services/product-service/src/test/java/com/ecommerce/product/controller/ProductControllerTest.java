@@ -9,8 +9,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -35,8 +38,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * JUnit 5 / Mockito 5 via spring-boot-parent 3.5 BOM – no version declarations.
  */
 @WebMvcTest(ProductController.class)
+@Import(ProductControllerTest.MethodSecurityTestConfig.class)
 @DisplayName("ProductController – web layer tests")
 class ProductControllerTest {
+
+    @TestConfiguration
+    @EnableMethodSecurity
+    static class MethodSecurityTestConfig {
+    }
 
     @Autowired private MockMvc       mockMvc;
     @Autowired private ObjectMapper  objectMapper;

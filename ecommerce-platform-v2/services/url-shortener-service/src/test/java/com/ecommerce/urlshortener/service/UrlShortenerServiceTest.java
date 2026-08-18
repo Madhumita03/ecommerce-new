@@ -38,7 +38,7 @@ class UrlShortenerServiceTest {
 
     @BeforeEach
     void setUp() {
-        given(redis.opsForValue()).willReturn(valueOps);
+        lenient().when(redis.opsForValue()).thenReturn(valueOps);
     }
 
     // ── Base62 encoding ──────────────────────────────────────────────────────
@@ -48,7 +48,7 @@ class UrlShortenerServiceTest {
     class Base62Tests {
 
         @ParameterizedTest(name = "ID {0} → \"{1}\"")
-        @CsvSource({"1,1", "62,10", "12345,dnh", "100000,q0U", "1000000000,15FTGg"})
+        @CsvSource({"1,1", "62,10", "12345,3d7", "100000,q0U", "1000000000,15FTGg"})
         @DisplayName("known ID→code mappings")
         void shouldEncodeKnownValues(long id, String expected) {
             assertThat(UrlShortenerService.toBase62(id)).isEqualTo(expected);
@@ -93,8 +93,8 @@ class UrlShortenerServiceTest {
 
             String code = service.shorten("https://example.com", null, "test");
 
-            assertThat(code).isEqualTo("dnh");
-            then(valueOps).should().set(eq("url:dnh"), eq("https://example.com"), any());
+            assertThat(code).isEqualTo("3d7");
+            then(valueOps).should().set(eq("url:3d7"), eq("https://example.com"), any());
         }
     }
 

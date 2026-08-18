@@ -10,6 +10,7 @@ public class ProductEvent {
     public enum EventType { CREATED, UPDATED, DELETED, OUT_OF_STOCK, RESTOCKED }
     private EventType eventType;
     private UUID productId;
+    private String productName;
     private String sku;
     private Long categoryId;
     @Builder.Default private Instant occurredAt = Instant.now();
